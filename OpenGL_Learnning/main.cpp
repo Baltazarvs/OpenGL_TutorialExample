@@ -344,21 +344,7 @@ int main(int argc, char** argv)
 
 		static bool bAnimateVisibModeNeg = false;
 		if (bAnimateVisibility)
-		{
-			if (!bAnimateVisibModeNeg)
-			{
-				if (both_visibility >= 1.0f)
-					bAnimateVisibModeNeg = true;
-				else
-					both_visibility += 0.01f;
-			}
-			else
-			{
-				both_visibility -= 0.01f;
-				if (both_visibility <= 0.0f)
-					bAnimateVisibModeNeg = false;
-			}
-		}
+			both_visibility = fabs(std::cos((float)glfwGetTime()));
 
 		glEnable(GL_DEPTH_TEST);
 		// Render here...
@@ -369,6 +355,7 @@ int main(int argc, char** argv)
 
 		glm::mat4 trans = glm::mat4(1.0f);
 		trans = glm::rotate(trans, (float)glfwGetTime() * (float)x_rotation_times, glm::vec3((float)bRotateX, (float)bRotateY, (float)bRotateZ));
+
 		int tloc = glGetUniformLocation(program_id, "transform");
 		int cloc = glGetUniformLocation(program_id, "col_mul");
 		int gloc = glGetUniformLocation(program_id, "grad_mul");
@@ -409,6 +396,8 @@ int main(int argc, char** argv)
 			glPolygonMode(GL_FRONT_AND_BACK, primsa[current_prim]);
 			glPointSize((float)point_size);
 		}
+		else
+			glPolygonMode(GL_FRONT_AND_BACK, primsa[0]);
 
 		glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(indices[0]), GL_UNSIGNED_INT, nullptr);
 
