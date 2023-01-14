@@ -412,6 +412,10 @@ int main(int argc, char** argv)
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+	
+	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &ibo);
+	glDeleteProgram(program_id);
 
 	glfwTerminate();
 	return 0;
